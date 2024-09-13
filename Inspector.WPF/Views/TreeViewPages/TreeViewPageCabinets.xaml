@@ -1,0 +1,332 @@
+﻿<ui:FluentWindow x:Class="Inspector.Views.TreeViewPages.TreeViewPageCabinets"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+ xmlns:local="clr-namespace:Inspector.Views.TreeViewPages"  
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+xmlns:helpers="clr-namespace:Inspector.Helpers" xmlns:cabinetstree="clr-namespace:Inspector.ViewModels.Windows.CabinetsTree"
+                 Width="1100"
+                 Height="650"
+                 d:DataContext="{d:DesignInstance cabinetstree:TreeCabinetsViewModel,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="650"
+    d:DesignWidth="1100"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ExtendsContentIntoTitleBar="True"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    WindowBackdropType="Mica"
+    WindowCornerPreference="Round"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d" Title="Обозреватель дел">
+    <ui:FluentWindow.Resources>
+        <helpers:HeightConverterGridPage x:Key="HeightConverterGridPage" />
+        <helpers:HalfPageConverter x:Key="HalfPageConverter" />
+        <helpers:TextDecorationConverterStrikeThroughH x:Key="TextDecorationConverterStrikeThroughH" />
+        <helpers:TextDecorationConverterStrikeThroughC x:Key="TextDecorationConverterStrikeThroughC" />
+        <helpers:TextSolidColorBrush x:Key="TextSolidColorBrush" />
+    </ui:FluentWindow.Resources>
+    <Grid Margin="0,0,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34.001"/>
+            <RowDefinition Height="46.003"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="73*"></ColumnDefinition>
+            <ColumnDefinition Width="87*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <ui:TitleBar
+            x:Name="TitleBar"
+            CloseWindowByDoubleClickOnIcon="True" Grid.ColumnSpan="2" Height="32" Padding="0,0,0,0" VerticalAlignment="Center"/>
+        <TextBlock x:Name="textBlox_2" TextWrapping="Wrap" Text="Обозреватель кабинетов" Padding="5,5,5,5" FontSize="16" Grid.Row="1"/>
+        <TextBlock x:Name="textBlox_1" TextWrapping="Wrap" Text="Таблицы документов" Padding="5,5,5,5" Grid.Column="1" FontSize="16" Grid.Row="1"/>
+        <TreeView ItemsSource="{Binding Cabinets}" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Row="2" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="True" Margin="5,2,5,0" VerticalAlignment="Top">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding HardwaresWpf}">
+                    <TextBlock Text="{Binding Treetittle}" >
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="TextDecorations">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource TextDecorationConverterStrikeThroughC}">
+                                            <Binding Path="RaspExpId" />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <HierarchicalDataTemplate >
+                            <TextBlock Text="{Binding Treetittle}" >
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="TextDecorations">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource TextDecorationConverterStrikeThroughH}">
+                                                    <Binding Path="UsageInfo" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </HierarchicalDataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <ScrollViewer CanContentScroll="True" Grid.Column="1" Margin="0,0,5,0" Grid.Row="2" Grid.RowSpan="2">
+            <StackPanel Orientation="Vertical">
+
+                <Expander x:Name="expander_2" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,5" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Кабинеты с распоряжением с неактуальными тех.ср." TextWrapping="Wrap"/>
+                    </Expander.Header>
+                    <DataGrid x:Name="dataGrid_2"  ItemsSource="{Binding ActualCabWithNotActualH, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+              AutoGenerateColumns="False"
+              ScrollViewer.CanContentScroll="True"
+              ScrollViewer.HorizontalScrollBarVisibility="Visible"
+              ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Номер" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="Number"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Адрес" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="Address"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Тип помещения" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="Status"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Отв. лицо за экспл." Binding="{Binding ResponsibleExp}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Отв. лицо за ТЗИ" Binding="{Binding ResponsibleTZI}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Аттестат" Binding="{Binding SertificateWpf.InvNumberWithName}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Расп. о вводе" Binding="{Binding DocumentRaspOVVWpf.InvNumberWithName}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Акт обследования" Binding="{Binding DocumentActReportWpf.InvNumberWithName}" IsReadOnly="True" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+                
+                <Expander x:Name="expander_1" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,5" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Актуальные тех.ср. в кабинетах без распоряжения" TextWrapping="Wrap" />
+                    </Expander.Header>
+                    <DataGrid x:Name="dataGrid_1"  ItemsSource="{Binding ActualHInNotActualCab, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+                            AutoGenerateColumns="False"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Наименование" Binding="{Binding FilterWpf.Name}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Серийный номер" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="SerialNumber"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Назначение" Binding="{Binding Appointment}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Номер кабинета" Binding="{Binding CabinetWpf.Number}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Наименование ОВТ" Binding="{Binding OVTWpf.Name}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Номер документа Первый" Binding="{Binding DocumentFirstWpf.InvNumberWithName}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Номер документа Второй" Binding="{Binding DocumentSecondWpf.InvNumberWithName}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Номер документа Третий" Binding="{Binding documentThirdWpf.InvNumberWithName}" IsReadOnly="True" />
+
+                          
+                            <DataGridTemplateColumn Header="Актуальность" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding UsageInfo, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
+                            <DataGridTextColumn Header="Примечание" Binding="{Binding Note}" IsReadOnly="True" />
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+              
+                
+                <Expander x:Name="expander_3" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,5" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Актуальные аттестаты в кабинетах без распоряжения" TextWrapping="Wrap"/>
+                    </Expander.Header>
+                    <DataGrid x:Name="dataGrid_3"  ItemsSource="{Binding ActualSerInNotActualCab, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+                            AutoGenerateColumns="False"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Номер" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="Number"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Дата выдачи" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="DataFirst" StringFormat="{}{0:dd.MM.yy}" ConverterCulture="ru-RU"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Наименование" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="Name"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Срок действия" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="DataEnd" StringFormat="{}{0:dd.MM.yy}" ConverterCulture="ru-RU"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Кем выдан" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="Organisation"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Том"  Binding="{Binding VolumeWpf.InvNumberWithName}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Инвент.арь"  Binding="{Binding InventoryWpf.InvNumberWithName}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Страница" Binding="{Binding Page}" />
+
+                            <DataGridTemplateColumn Header="На уничтожение" SortMemberPath="ForDestruction" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ForDestruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+
+
+                            <DataGridTemplateColumn Header="Уничтожено" SortMemberPath="DestructionMark" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding DestructionMark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+                <Expander x:Name="expander_4" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,5" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Актуальные акты в кабинетах без распоряжения" TextWrapping="Wrap"/>
+                    </Expander.Header>
+                    <DataGrid x:Name="dataGrid_4"  ItemsSource="{Binding ActualDocInNotActualCab, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+             AutoGenerateColumns="False"
+             ScrollViewer.CanContentScroll="True"
+             ScrollViewer.HorizontalScrollBarVisibility="Visible"
+             ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Инв. номер" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="InvNumber"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Data, StringFormat={}{0:dd.MM.yy}, ConverterCulture=ru-RU}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Том"  Binding="{Binding VolumeWpf.InvNumberWithName}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Инвент.арь"  Binding="{Binding InventoryWpf.InvNumberWithName}" IsReadOnly="True" />
+
+
+                            <DataGridTextColumn Header="Страница" Binding="{Binding Page}" />
+
+                            <DataGridTemplateColumn Header="На уничтожение" SortMemberPath="ForDestruction" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ForDestruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Уничтожено" SortMemberPath="DestructionMark" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding DestructionMark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+        <!--<TextBlock x:Name="textBlox_5" TextWrapping="Wrap" Text="Документы со Спорными метками" Grid.Row="4" Grid.Column="1" Padding="2,2,2,2" Margin="5,16,5,0" VerticalAlignment="Top" />-->
+        <!--<TextBlock x:Name="textBlox_6" TextWrapping="Wrap" Text="Документы которые стоит уничтожить т.к. дело и Инвент.арь на уничтожении или уничтожены" Grid.Row="5" Grid.Column="1" Padding="2,2,2,0" Margin="5,17,5,0" VerticalAlignment="Top"/>-->
+
+
+    </Grid>
+
+</ui:FluentWindow>

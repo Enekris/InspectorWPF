@@ -1,0 +1,496 @@
+﻿<ui:FluentWindow x:Class="Inspector.Views.TreeViewPages.TreeViewPageVolumes"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+ xmlns:local="clr-namespace:Inspector.Views.TreeViewPages"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+xmlns:helpers="clr-namespace:Inspector.Helpers" xmlns:pages="clr-namespace:Inspector.ViewModels.Pages" xmlns:volumestree="clr-namespace:Inspector.ViewModels.Windows.VolumesTree"
+                 Width="1100"
+                 Height="650"
+                 d:DataContext="{d:DesignInstance volumestree:TreeVolumesViewModel,
+                                     IsDesignTimeCreatable=False}"
+    d:DesignHeight="650"
+    d:DesignWidth="1100"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ExtendsContentIntoTitleBar="True"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    WindowBackdropType="Mica"
+    WindowCornerPreference="Round"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d" Title="Обозреватель дел">
+    <ui:FluentWindow.Resources>
+        <helpers:HeightConverterGridPage x:Key="HeightConverterGridPage" />
+        <helpers:HalfPageConverter x:Key="HalfPageConverter" />
+        <helpers:TextDecorationConverterStrikeThrough x:Key="TextDecorationConverterStrikeThrough" />
+        <helpers:TextSolidColorBrush x:Key="TextSolidColorBrush" />
+    </ui:FluentWindow.Resources>
+    <Grid Margin="0,0,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="34.001"/>
+            <RowDefinition Height="46.003"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="73*"></ColumnDefinition>
+            <ColumnDefinition Width="87*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <ui:TitleBar
+            x:Name="TitleBar"
+            CloseWindowByDoubleClickOnIcon="True" Grid.ColumnSpan="2" Height="32" Padding="0,0,0,0" VerticalAlignment="Center"/>
+        <TextBlock x:Name="textBlox_2" TextWrapping="Wrap" Text="Обозреватель дел" Padding="5,5,5,5" FontSize="16" Grid.Row="1"/>
+        <TextBlock x:Name="textBlox_1" TextWrapping="Wrap" Text="Таблицы документов" Padding="5,5,5,5" Grid.Column="1" FontSize="16" Grid.Row="1"/>
+        <TreeView ItemsSource="{Binding CaseYears}" ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto" Grid.Row="2" Grid.ColumnSpan="1" ScrollViewer.CanContentScroll="True" Margin="5,2,5,0" VerticalAlignment="Top">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding CaseNumbersCollection}">
+                    <TextBlock Text="{Binding CaseYear}" >
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Background">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource TextSolidColorBrush}">
+                                            <Binding Path="ForDestruction" />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter Property="TextDecorations">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource TextDecorationConverterStrikeThrough}">
+                                            <Binding Path="DestructionMark" />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <HierarchicalDataTemplate.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding VolumesCollection}">
+                            <TextBlock Text="{Binding CaseNumber}" >
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource TextSolidColorBrush}">
+                                                    <Binding Path="ForDestruction" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="TextDecorations">
+                                            <Setter.Value>
+                                                <MultiBinding Converter="{StaticResource TextDecorationConverterStrikeThrough}">
+                                                    <Binding Path="DestructionMark" />
+                                                </MultiBinding>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <HierarchicalDataTemplate.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding LastElements}">
+                                    <TextBlock Text="{Binding VolumeNumber}" >
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Background">
+                                                    <Setter.Value>
+                                                        <MultiBinding Converter="{StaticResource TextSolidColorBrush}">
+                                                            <Binding Path="ForDestruction" />
+                                                        </MultiBinding>
+                                                    </Setter.Value>
+                                                </Setter>
+                                                <Setter Property="TextDecorations">
+                                                    <Setter.Value>
+                                                        <MultiBinding Converter="{StaticResource TextDecorationConverterStrikeThrough}">
+                                                            <Binding Path="DestructionMark" />
+                                                        </MultiBinding>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                    <HierarchicalDataTemplate.ItemTemplate>
+                                        <HierarchicalDataTemplate >
+                                            <TextBlock Text="{Binding InvNumberWithNameForTree}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="Background">
+                                                            <Setter.Value>
+                                                                <MultiBinding Converter="{StaticResource TextSolidColorBrush}">
+                                                                    <Binding Path="ForDestruction" />
+                                                                </MultiBinding>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="TextDecorations">
+                                                            <Setter.Value>
+                                                                <MultiBinding Converter="{StaticResource TextDecorationConverterStrikeThrough}">
+                                                                    <Binding Path="DestructionMark" />
+                                                                </MultiBinding>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </HierarchicalDataTemplate>
+                                    </HierarchicalDataTemplate.ItemTemplate>
+
+                                </HierarchicalDataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>
+                        </HierarchicalDataTemplate>
+                    </HierarchicalDataTemplate.ItemTemplate>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+        <ScrollViewer CanContentScroll="True" Grid.Column="1" Margin="0,0,5,0" Grid.Row="2" Grid.RowSpan="2">
+            <StackPanel Orientation="Vertical">
+                <Expander x:Name="expander_1" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,5" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Дела со Спорными метками" TextWrapping="Wrap" />
+                    </Expander.Header>
+                    <!--<TextBlock x:Name="textBlox_3" TextWrapping="Wrap" Text="Дела со Спорными метками" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Margin="5,5,5,3" Padding="2,2,2,2" VerticalAlignment="Bottom"/>-->
+                    <DataGrid x:Name="dataGrid_1"  ItemsSource="{Binding ErrorVolumes, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+                            AutoGenerateColumns="False"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Инв. номер" Binding="{Binding InvNumber}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding CaseYear}">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Год дела" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding CaseNumber}">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Номер дела" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding VolumeNumber}">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Номер тома" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTemplateColumn Header="На уничтожение" SortMemberPath="ForDestruction" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ForDestruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Уничтожено" SortMemberPath="DestructionMark" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding DestructionMark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+                <Expander x:Name="expander_2" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,5" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Дела которые стоит уничтожить т.к. документы и аттестаты уничтожены" TextWrapping="Wrap"/>
+                    </Expander.Header>
+                    <!--<TextBlock x:Name="textBlox_4" TextWrapping="Wrap" Text="Дела которые стоит уничтожить т.к. документы и аттестаты уничтожены" Grid.Row="3" Grid.Column="1" Margin="5,16,5,0" Padding="2,2,2,2" VerticalAlignment="Top"/>-->
+                    <DataGrid x:Name="dataGrid_2"  ItemsSource="{Binding InterestedForDeleteVolumes, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+                            AutoGenerateColumns="False"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Инв. номер" Binding="{Binding InvNumber}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding CaseYear}">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Год дела" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding CaseNumber}">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Номер дела" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding VolumeNumber}">
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Номер тома" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTemplateColumn Header="На уничтожение" SortMemberPath="ForDestruction" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ForDestruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Уничтожено" SortMemberPath="DestructionMark" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding DestructionMark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+                <Expander x:Name="expander_3" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,5" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Документы со Спорными метками" TextWrapping="Wrap"/>
+                    </Expander.Header>
+                    <DataGrid x:Name="dataGrid_3"  ItemsSource="{Binding ErrorDocuments, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+                            AutoGenerateColumns="False"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding InvNumber}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Инв. номер" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Data, ConverterCulture=ru-RU, StringFormat=\{0:dd.MM.yy\}}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Название" Binding="{Binding Name}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Том" Binding="{Binding VolumeWpf.InvNumberWithName}"  IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Инвент.арь" Binding="{Binding InventoryWpf.InvNumberWithName}"  IsReadOnly="True" />
+
+
+                            <DataGridTextColumn Header="Страница" Binding="{Binding Page}" IsReadOnly="True"/>
+
+                            <DataGridTemplateColumn Header="На уничтожение" SortMemberPath="ForDestruction" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ForDestruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Уничтожено" SortMemberPath="DestructionMark" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding DestructionMark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+                <Expander x:Name="expander_4" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,5" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Документы которые стоит уничтожить т.к. дело и Инвент.арь на уничтожении или уничтожены" TextWrapping="Wrap" />
+                    </Expander.Header>
+
+                    <DataGrid x:Name="dataGrid_4"  ItemsSource="{Binding InterestedForDeleteDocuments, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+                            AutoGenerateColumns="False"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding InvNumber}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Инв. номер" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Data, ConverterCulture=ru-RU, StringFormat=\{0:dd.MM.yy\}}" IsReadOnly="True" />
+                            <DataGridTextColumn Header="Название" Binding="{Binding Name}" IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Том" Binding="{Binding VolumeWpf.InvNumberWithName}"  IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Инвент.арь" Binding="{Binding InventoryWpf.InvNumberWithName}"  IsReadOnly="True" />
+
+
+                            <DataGridTextColumn Header="Страница" Binding="{Binding Page}" IsReadOnly="True"/>
+
+                            <DataGridTemplateColumn Header="На уничтожение" SortMemberPath="ForDestruction" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ForDestruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Уничтожено" SortMemberPath="DestructionMark" IsReadOnly="True">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding DestructionMark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+                <Expander x:Name="expander_5" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,5" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Аттестаты со Спорными метками" TextWrapping="Wrap" />
+                    </Expander.Header>
+                    <!--<TextBlock x:Name="textBlox_5_Копировать" TextWrapping="Wrap" Text="Аттестаты со Спорными метками" Grid.Row="4" Padding="2,2,2,2" Margin="5,16,5,0" VerticalAlignment="Top" />-->
+                    <DataGrid x:Name="dataGrid_3_Копировать"  ItemsSource="{Binding ErrorSertificates, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+                            AutoGenerateColumns="False"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Number}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Номер" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding DataFirst, ConverterCulture=ru-RU, StringFormat=\{0:dd.MM.yy\}}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Дата выдачи" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Name}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Наименование" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding DataEnd, ConverterCulture=ru-RU, StringFormat=\{0:dd.MM.yy\}}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Срок действия" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Organisation}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Кем выдан" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Том" Binding="{Binding VolumeWpf.InvNumberWithName}"  IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Инвент.арь" Binding="{Binding InventoryWpf.InvNumberWithName}"  IsReadOnly="True" />
+                            <DataGridTextColumn Header="Страница" Binding="{Binding Page}" IsReadOnly="True"/>
+
+                            <DataGridTemplateColumn Header="На уничтожение" SortMemberPath="ForDestruction" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ForDestruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Уничтожено" SortMemberPath="DestructionMark" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding DestructionMark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+                <Expander x:Name="expander_6" Margin="0,0,0,5" VerticalAlignment="Top" Padding="5,5,5,11" ScrollViewer.CanContentScroll="True">
+                    <Expander.Header>
+                        <TextBlock Text="Аттестаты которые стоит уничтожить т.к. дело, ОВТ, Инвент.арь на уничтожении или уничтожены" TextWrapping="Wrap" />
+                    </Expander.Header>
+                    <!--<TextBlock x:Name="textBlox_5_Копировать1" TextWrapping="Wrap" Text="Аттестаты которые стоит уничтожить т.к. дело, ОВТ, Инвент.арь на уничтожении или уничтожены" Grid.Row="5" Padding="2,2,2,0" Margin="5,2,5,0" VerticalAlignment="Top" />-->
+                    <DataGrid x:Name="dataGrid_4_Копировать"  ItemsSource="{Binding InterestedForDeleteSertificates, Mode=TwoWay}" RenderTransformOrigin="0.5,0.5" CanUserAddRows="False"
+                            AutoGenerateColumns="False"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                            ScrollViewer.VerticalScrollBarVisibility="Visible" MaxHeight="250">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True" />
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Number}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Номер" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding DataFirst, ConverterCulture=ru-RU, StringFormat=\{0:dd.MM.yy\}}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Дата выдачи" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Name}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Наименование" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding DataEnd, ConverterCulture=ru-RU, StringFormat=\{0:dd.MM.yy\}}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Срок действия" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn IsReadOnly="True" Binding="{Binding Organisation}" >
+                                <DataGridTextColumn.Header>
+                                    <TextBlock Text="Кем выдан" FontWeight="Bold"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+
+                            <DataGridTextColumn Header="Том" Binding="{Binding VolumeWpf.InvNumberWithName}"  IsReadOnly="True" />
+
+                            <DataGridTextColumn Header="Инвент.арь" Binding="{Binding InventoryWpf.InvNumberWithName}"  IsReadOnly="True" />
+                            <DataGridTextColumn Header="Страница" Binding="{Binding Page}" IsReadOnly="True"/>
+
+                            <DataGridTemplateColumn Header="На уничтожение" SortMemberPath="ForDestruction" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding ForDestruction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Header="Уничтожено" SortMemberPath="DestructionMark" IsReadOnly="True" >
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding DestructionMark, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="False" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Expander>
+
+            </StackPanel>
+
+        </ScrollViewer>
+
+        <!--<TextBlock x:Name="textBlox_5" TextWrapping="Wrap" Text="Документы со Спорными метками" Grid.Row="4" Grid.Column="1" Padding="2,2,2,2" Margin="5,16,5,0" VerticalAlignment="Top" />-->
+        <!--<TextBlock x:Name="textBlox_6" TextWrapping="Wrap" Text="Документы которые стоит уничтожить т.к. дело и Инвент.арь на уничтожении или уничтожены" Grid.Row="5" Grid.Column="1" Padding="2,2,2,0" Margin="5,17,5,0" VerticalAlignment="Top"/>-->
+
+
+    </Grid>
+
+</ui:FluentWindow>

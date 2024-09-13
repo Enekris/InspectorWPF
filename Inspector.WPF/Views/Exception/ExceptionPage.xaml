@@ -1,0 +1,33 @@
+﻿<ui:FluentWindow x:Class="Inspector.Views.Exception.ExceptionPage"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+ xmlns:local="clr-namespace:Inspector.Views.Exception"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+xmlns:helpers="clr-namespace:Inspector.Helpers" xmlns:pages="clr-namespace:Inspector.ViewModels.Pages"
+    Width="900"
+    Height="400"
+    d:DataContext="{d:DesignInstance local:ExceptionPage,
+                                     IsDesignTimeCreatable=True}"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ui:Design.Background="{DynamicResource ApplicationBackgroundBrush}"
+    ui:Design.Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    ExtendsContentIntoTitleBar="True"
+    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+    WindowBackdropType="Mica"
+    WindowCornerPreference="Round"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d" Title="Предупреждение">
+    <ui:FluentWindow.Resources>
+        <helpers:HeightConverterGridPage x:Key="HeightConverterGridPage" />
+    </ui:FluentWindow.Resources>
+    <StackPanel Orientation="Vertical" Margin="5,5,5,5">
+        <ui:TitleBar
+     x:Name="TitleBar"
+     Grid.Row="0" Height="32"/>
+        <TextBlock Text="{Binding ErrorMessage}"  HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,5,5,5" />
+    </StackPanel>
+
+</ui:FluentWindow>
